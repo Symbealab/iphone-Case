@@ -3,6 +3,7 @@
 [Symbea flower](https://github.com/Symbealab/Symbea-flower) の花を背面に凹みで刻印した iPhone 12 Pro のケースを、
 ブラウザで調整して STL に書き出すツール。Bambu Lab A1 mini・PLA（Bambu PLA Matte）・0.4 mm ノズル・スムース PEI 向け。
 
+- **公開先**：https://symbealab.github.io/iphone-Case/case/ （iPhone の Safari でも使える。保存は共有シートから「ファイルに保存」や AirDrop へ）
 - ページ：`case/index.html`（`/case/`）
 - 設計メモ：[`case/DESIGN.md`](case/DESIGN.md)。寸法は Apple「iPhone 12 Pro Dimensional Drawings」（2020-10-16）から
 - [order-chaos-stl](https://github.com/Symbealab/order-chaos-stl) の `js/pipeline.js`・`vendor/`・画面の部品を流用（`case/` を order-chaos-stl に入れてもそのまま動く配置）
@@ -103,3 +104,8 @@ node tools/compare-symbea.js ../Symbea-flower/docs 342717359454   # Symbea Flowe
 | その他 → ブリム | なし（はがれるときだけ外側 3 mm） | ベッド面が製品の外側になるので |
 
 試作の段取り：フィット試験（入れやすさ・ガタ・カメラ穴の位置）→ 刻印試験（線のつぶれ・見え方）→ 結果を既定値に → 本番。
+
+## 公開（GitHub Pages）
+
+main ブランチのルートをそのまま公開する（Settings → Pages → Build and deployment → Source: Deploy from a branch、Branch: `main` / `/ (root)`）。
+`.nojekyll` で Jekyll の処理を止めているので、`vendor/` の WASM なども含めてそのまま配信される。CDN には頼らない。
