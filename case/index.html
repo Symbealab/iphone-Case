@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Symbea iPhone 12 Pro ケース</title>
+<meta name="description" content="Symbea flower を背面に刻印した iPhone 12 Pro ケースを、ブラウザで調整して STL に書き出す（Bambu Lab A1 mini・PLA 向け）。">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/case.css">
+</head>
+<body>
+<main>
+  <h1>iPhone 12 Pro ケース × Symbea flower</h1>
+  <p class="lead">背面に Symbea flower を凹みで刻印した、iPhone 12 Pro のケースを作ります。印刷は背面が下（ベッド面）。まずはフィット試験片と刻印試験片から。</p>
+
+  <div class="studio">
+    <section class="views">
+      <div class="view-tabs" role="tablist">
+        <button role="tab" class="tab on" data-view="3d">3D</button>
+        <button role="tab" class="tab" data-view="2d">背面（刻印）</button>
+      </div>
+      <div class="stage" id="stage">
+        <div id="view3d"></div>
+        <canvas id="view2d" width="900" height="900" aria-label="背面から見た刻印のプレビュー" hidden></canvas>
+        <div class="busy" id="busy" hidden><span class="spin"></span><span id="busyText">計算中…</span></div>
+        <div class="legend" id="legend" hidden><i class="sw a"></i>刻印 <i class="sw b"></i>カメラ穴・外周から離す範囲</div>
+      </div>
+      <p class="hint" id="message"></p>
+    </section>
+
+    <aside class="panel">
+      <h4>作るもの</h4>
+      <div class="seg" id="preset" role="radiogroup" aria-label="作るもの">
+        <button data-preset="fit" class="on">フィット試験</button>
+        <button data-preset="plate">刻印試験</button>
+        <button data-preset="case">本番</button>
+      </div>
+      <p class="hint" id="presetHint"></p>
+
+      <div id="fitBox">
+        <label class="sl"><span>隙間</span><select id="fitClr"><option>0.15</option><option selected>0.20</option><option>0.25</option></select><output>mm</output></label>
+        <label class="sl"><span>長さ</span><input type="range" id="crop" min="25" max="80" step="1"><output id="cropOut"></output></label>
+      </div>
+      <div id="plateBox" hidden>
+        <label class="sl"><span>深さ</span><select id="plateDepth"><option>0.4</option><option selected>0.6</option><option>0.8</option></select><output>mm</output></label>
+        <label class="sl"><span>しきい値</span><select id="plateTh"><option selected>0.06</option><option>0.09</option></select><output></output></label>
+      </div>
+
+      <h4>花</h4>
+      <div class="seedrow">
+        <label class="field">シード（12 桁）<input type="text" id="seed" inputmode="numeric" placeholder="342717359454" autocomplete="off" spellcheck="false"></label>
+        <label class="field">花<select id="flower">
+          <option value="0">1</option><option value="1">2</option><option value="2">3</option>
+          <option value="3">4</option><option value="4">5</option><option value="5">6</option>
+          <option value="6" selected>7</option><option value="7">8</option><option value="8">9</option>
+        </select></label>
+      </div>
+      <div class="flower-map">花の番号は Symbea Flower の 3 × 3 の左上から右へ 1 2 3 / 4 5 6 / 7 8 9　<span id="flowerName"></span></div>
+      <div id="flowerSliders"></div>
+      <button id="runFlower">この花で作る</button>
+
+      <h4>刻印</h4>
+      <label class="check"><input type="checkbox" id="engrave" checked> 背面に刻印する</label>
+      <div id="engSliders"></div>
+
+      <h4>ケース</h4>
+      <div id="caseSliders"></div>
+      <label class="sl"><span>下部</span><select id="bottom">
+        <option value="wall">壁あり（角も含む）</option>
+        <option value="corners">角だけ残す（中央 13.3–58.3 を開ける）</option>
+        <option value="open">全開放（下端の壁なし）</option>
+      </select><output></output></label>
+      <label class="check"><input type="checkbox" id="leftOpen" checked> 消音・音量側を開ける（上端から 21.1–61.0）</label>
+      <label class="check"><input type="checkbox" id="rightOpen" checked> 電源側を開ける（上端から 35.4–57.2）</label>
+      <button id="reset">既定値に戻す</button>
+
+      <h4>出力</h4>
+      <dl class="stats" id="stats"><dt>大きさ</dt><dd>–</dd><dt>重さの目安</dt><dd>–</dd><dt>三角形</dt><dd>–</dd><dt>閉じた形状</dt><dd>–</dd></dl>
+      <button id="save" class="primary" disabled>STL を保存</button>
+      <button id="saveBatch" disabled>まとめて保存</button>
+      <p class="hint">重さは充填 100% の PLA（1.24 g/cm³）としての目安です。</p>
+      <details class="tips">
+        <summary>Bambu Studio のおすすめ設定（A1 mini・PLA）</summary>
+        <ul>
+          <li>プロファイル：<b>0.12mm Fine</b></li>
+          <li>品質 → 壁ジェネレータ：<b>Arachne</b></li>
+          <li>品質 → エレファントフット補正：<b>0.1〜0.15 mm</b>（ベッド面の刻印が埋まらないように）</li>
+          <li>強度 → 壁ループ：<b>3</b></li>
+          <li>プレート：<b>スムース PEI</b>（背面がつやのある面になり、刻印がはっきり見える）</li>
+          <li>サポート：なし（ふちの下面は 45° で作ってある）</li>
+          <li>ふちがだれるときは 0.08 mm の層にする</li>
+        </ul>
+      </details>
+    </aside>
+  </div>
+
+  <footer>
+    花の写像・シードは <a href="https://symbealab.github.io/Symbea-flower/">Symbea Flower</a> と同じ計算です。寸法は Apple「iPhone 12 Pro Dimensional Drawings」から。
+  </footer>
+</main>
+<script src="../vendor/three.min.js"></script>
+<script src="../vendor/OrbitControls.js"></script>
+<script src="../js/pipeline.js"></script>
+<script src="js/symbea-core.js"></script>
+<script src="js/case-geom.js"></script>
+<script src="js/case-app.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+/* ケースのページだけの部品（共通は ../css/style.css） */
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 6px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.panel .seg button {
+  margin: 0; border: 0; border-radius: 0; font-size: 13px; padding: 7px 4px; background: var(--bg); color: var(--muted);
+}
+.panel .seg button + button { border-left: 1px solid var(--border); }
+.panel .seg button.on { background: var(--accent); color: #fff; }
+.panel label.sl select { width: 100%; }
+#flowerName { color: var(--text); }
+#view2d { background: #0b0b10; }
